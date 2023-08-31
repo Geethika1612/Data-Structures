@@ -1,0 +1,43 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include <ctype.h>
+
+#define SIZE 100
+
+typedef struct {
+    int data[SIZE], top;
+} Stack;
+
+void init(Stack *a)
+{ a->top = -1; }
+void push(Stack *a, int i)
+{ a->data[++a->top] = i; }
+int pop(Stack *a)
+{ return a->data[a->top--]; }
+
+int evaluate(const char *b) {
+    Stack a; 
+	init(&a);
+    for (int i = 0; b[i]; ++i) {
+        char c = b[i];
+        if (isdigit(c)) push(&a, c - '0');
+        else {
+            int k2 = pop(&a), k1 = pop(&a);
+            switch (c) {
+                case '+': push(&a, k1 + k2); break;
+                case '-': push(&a, k1 - k2); break;
+                case '*': push(&a, k1 * k2); break;
+                case '/': push(&a, k1 / k2); break;
+            }
+        }
+    }
+    return pop(&a);
+}
+
+int main() {
+    char b[SIZE];
+    printf("Enter postfix: ");
+    scanf("%s", b);
+    printf("Result: %d\n", evaluate(b));
+    return 0;
+}
