@@ -99,7 +99,7 @@ current = current->next;
 }
 int getRandom(HashMap* hashMap) {
 if (hashMap->size == 0) {
-return -1; // Handle empty HashMap case
+return -1; 
 }
 int randomIndex = rand() % hashMap->size;
 int count = 0;
@@ -113,7 +113,7 @@ count++;
 current = current->next;
 }
 }
-return -1; // Handle errors
+return -1; 
 }
 int main() {
 HashMap* hashMap = createHashMap();
