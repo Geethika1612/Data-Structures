@@ -75,3 +75,80 @@ return true;
 }
 
 current = current->next;
+}
+return false;
+}
+void delete(HashMap* hashMap, int key) {
+int index = hash(key);
+Node* current = hashMap->table[index];
+Node* prev = NULL;
+while (current != NULL) {
+if (current->value == key) {
+if (prev == NULL) {
+hashMap->table[index] = current->next;
+} else {
+prev->next = current->next;
+}
+free(current);
+hashMap->size--;
+return;
+}
+prev = current;
+current = current->next;
+}
+}
+int getRandom(HashMap* hashMap) {
+if (hashMap->size == 0) {
+return -1; // Handle empty HashMap case
+}
+int randomIndex = rand() % hashMap->size;
+int count = 0;
+for (int i = 0; i < MAX_SIZE; i++) {
+Node* current = hashMap->table[i];
+while (current != NULL) {
+if (count == randomIndex) {
+return current->value;
+}
+count++;
+current = current->next;
+}
+}
+return -1; // Handle errors
+}
+int main() {
+HashMap* hashMap = createHashMap();
+int choice, key;
+while (1) {
+printf("1. Insert\n2. Delete\n3. Search\n4. GetRandom\n5. Exit\nEnter your choice: ");
+scanf("%d", &choice);
+switch (choice) {
+case 1:
+printf("Enter key to insert: ");
+scanf("%d", &key);
+insert(hashMap, key);
+break;
+case 2:
+printf("Enter key to delete: ");
+scanf("%d", &key);
+delete(hashMap, key);
+break;
+case 3:
+printf("Enter key to search: ");
+scanf("%d", &key);
+if (search(hashMap, key)) {
+printf("Element %d found.\n", key);
+} else {
+printf("Element %d not found.\n", key);
+}
+break;
+case 4:
+printf("Random element: %d\n", getRandom(hashMap));
+break;
+case 5:
+exit(0);
+default:
+printf("Invalid choice. Please try again.\n");
+}
+}
+return 0;
+}
