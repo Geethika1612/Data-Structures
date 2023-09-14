@@ -1,0 +1,68 @@
+#include <stdio.h>
+
+void Merge(int merged[], int left[], int leftSize, int right[], int rightSize) {
+    int i = 0, j = 0, k = 0;
+    
+    while (i < leftSize && j < rightSize) {
+        if (left[i] < right[j]) {
+            merged[k++] = left[i++];
+        } else {
+            merged[k++] = right[j++];
+        }
+    }
+    
+    while (i < leftSize) {
+        merged[k++] = left[i++];
+    }
+    
+    while (j < rightSize) {
+        merged[k++] = right[j++];
+    }
+}
+
+void MergeSort(int array[], int size) {
+    if (size <= 1) {
+        return;
+    }
+    
+    int middle = size / 2;
+    
+    int leftArray[middle];
+    int rightArray[size - middle];
+    
+    for (int i = 0; i < middle; i++) {
+        leftArray[i] = array[i];
+    }
+    
+    for (int i = middle; i < size; i++) {
+        rightArray[i - middle] = array[i];
+    }
+    
+    MergeSort(leftArray, middle);
+    MergeSort(rightArray, size - middle);
+    
+    Merge(array, leftArray, middle, rightArray, size - middle);
+}
+
+int main() {
+    int size;
+    
+    printf("Enter the number of elements: ");
+    scanf("%d", &size);
+    
+    int input[size];
+    
+    printf("Enter %d integers:\n", size);
+    for (int i = 0; i < size; i++) {
+        scanf("%d", &input[i]);
+    }
+    
+    MergeSort(input, size);
+    
+    printf("Sorted array: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", input[i]);
+    }
+    
+    return 0;
+}
