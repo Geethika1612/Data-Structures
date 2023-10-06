@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+char* name;
+int priority;
+struct Node* next;
+};
+struct PriorityQueue {
+struct Node* front;
+};
+struct Node* newNode(char* name, int priority) {
+struct Node* temp = (struct
+Node*)malloc(sizeof(struct Node));
+temp->name = name;
+temp->priority = priority;
+temp->next = NULL;
+return temp;
+}
+int isEmpty(struct PriorityQueue* pq) {
+return (pq->front == NULL);
+
+}
+void enqueue(struct PriorityQueue* pq, char* name,
+int priority) {
+struct Node* new_node = newNode(name, priority);
+if (isEmpty(pq) || priority < pq->front->priority) {
+new_node->next = pq->front;
+pq->front = new_node;
+} else {
+struct Node* current = pq->front;
+while (current->next != NULL && current->next-
+>priority <= priority) {
+current = current->next;
+}
+new_node->next = current->next;
+current->next = new_node;
+}
+}
+char* dequeue(struct PriorityQueue* pq) {
+if (isEmpty(pq)) {
+printf("Priority Queue is empty.\n");
+return NULL;
+} else {
+struct Node* front_node = pq->front;
+pq->front = pq->front->next;
+char* name = front_node->name;
+
+free(front_node);
+return name;
+}
+}
+char* peek(struct PriorityQueue* pq) {
+if (isEmpty(pq)) {
+printf("Priority Queue is empty.\n");
+return NULL;
+} else {
+return pq->front->name;
+}
+}
+void display(struct PriorityQueue* pq) {
+if (isEmpty(pq)) {
+printf("Priority Queue is empty.\n");
+} else {
+struct Node* current = pq->front;
+while (current != NULL) {
+printf("(%s, %d) -> ", current->name, current-
+>priority);
+current = current->next;
+}
+printf("NULL\n");
+}
+}
+
+int main() {
+struct PriorityQueue pq;
+pq.front = NULL;
+char* name;
+int priority;
+int choice;
+while (1) {
+printf("\nPriority Queue Operations:\n");
+printf("1. Enqueue\n");
+printf("2. Dequeue\n");
+printf("3. Peek\n");
+printf("4. Display\n");
+printf("5. Exit\n");
+printf("Enter your choice: ");
+scanf("%d", &choice);
+switch (choice) {
+case 1:
+printf("Enter name: ");
+scanf("%s", name);
+printf("Enter priority: ");
+
+scanf("%d", &priority);
+enqueue(&pq, name, priority);
+break;
+case 2:
+printf("Dequeued: %s\n", dequeue(&pq));
+break;
+case 3:
+printf("Peek: %s\n", peek(&pq));
+break;
+case 4:
+printf("Priority Queue:\n");
+display(&pq);
+break;
+case 5:
+exit(0);
+default:
+printf("Invalid choice!\n");
+}
+}
+
+return 0;
+}
