@@ -59,7 +59,7 @@ key) {
 int findMin(struct TreeNode* root) {
     if (root == NULL) {
         printf("Tree is empty.\n");
-return -1; // Return a sentinel value to indicate an
+return -1; 
 empty tree.
     }
     while (root->left) {
