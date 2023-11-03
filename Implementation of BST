@@ -70,7 +70,7 @@ empty tree.
 int findMax(struct TreeNode* root) {
     if (root == NULL) {
         printf("Tree is empty.\n");
-        return -1; // Return a sentinel value to indicate an
+        return -1; 
 empty tree.
     }
     while (root->right) {
@@ -99,7 +99,7 @@ int main() {
         printf("5. Search for an element\n");
         printf("6. Find the Smallest Element\n");
         printf("7. Find the Largest Element\n");
-printf("8. Calculate the Height\n");
+printf("8. Find the Height\n");
         printf("9. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
