@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+int* mergeArrays(int arr1[], int arr2[], int len1, int
+len2) {
+    int* merged = (int*)malloc((len1 + len2) *
+sizeof(int));
+    int i = 0, j = 0, k = 0;
+    while (i < len1 && j < len2) {
+        if (arr1[i] < arr2[j]) {
+            merged[k++] = arr1[i++];
+        } else {
+            merged[k++] = arr2[j++];
+        }
+    }
+    while (i < len1) {
+        merged[k++] = arr1[i++];
+    }
+    while (j < len2) {
+        merged[k++] = arr2[j++];
+    }
+return merged;
+}
+int* kWayMerge(int* sortedArrays[], int k, int
+lengths[]) {
+    if (k <= 0) {
+        return NULL;
+    }
+    int* result = sortedArrays[0];
+    int resultLength = lengths[0];
+    for (int i = 1; i < k; i++) {
+        result = mergeArrays(result, sortedArrays[i],
+resultLength, lengths[i]);
+        resultLength += lengths[i];
+    }
+    return result;
+}
+int main() {
+    int k;
+    printf("Enter the number of arrays to be sorted: ");
+scanf("%d", &k);
+    if (k <= 0) {
+        printf("Invalid input for the number of sorted
+arrays.\n");
+        return 1;
+    }
+    int* sortedArrays[k]; 
+    int lengths[k]; 
+    for (int i = 0; i < k; i++) {
+        printf("Enter the length of sorted array %d: ", i +
+1);
+        scanf("%d", &lengths[i]);
+        sortedArrays[i] = (int*)malloc(lengths[i] *
+sizeof(int));
+        printf("Enter %d elements for sorted array %d: ",
+lengths[i], i + 1);
+        for (int j = 0; j < lengths[i]; j++) {
+            scanf("%d", &sortedArrays[i][j]);
+        }
+    }
+    int* sortedresult = kWayMerge(sortedArrays, k,
+lengths);
+    printf("Sorted Array: ");
+for (int i = 0; i < k * lengths[0]; i++) {
+        printf("%d ", sortedresult[i]);
+    }
+    printf("\n");
+    for (int i = 0; i < k; i++) {
+        free(sortedArrays[i]);
+    }
+    free(sortedresult);
+    return 0;
+}
